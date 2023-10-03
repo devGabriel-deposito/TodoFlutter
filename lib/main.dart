@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:todo/views/AddScreen/add_screen.dart';
 import 'package:todo/views/HomeScreen/home_screen.dart';
 import 'package:todo/views/UpdateScreen/update_screen.dart';
@@ -27,6 +28,8 @@ class App extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
       ),
+      localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+      supportedLocales: const [Locale('pt')],
     );
   }
 }

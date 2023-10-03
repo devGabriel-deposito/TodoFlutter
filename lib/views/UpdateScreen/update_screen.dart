@@ -1,12 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:todo/widgets/custom_app_bar.dart';
 
-class UpdateScreen extends StatelessWidget {
+class UpdateScreen extends StatefulWidget {
   const UpdateScreen({super.key});
+
+  @override
+  State<UpdateScreen> createState() => _UpdateScreenState();
+}
+
+class _UpdateScreenState extends State<UpdateScreen> {
+  String selectedDate = "";
+
+  void selectData() async {
+    DateTime? result = await showDatePicker(
+      context: context,
+      cancelText: "Fechar",
+      confirmText: "Selecionar",
+      helpText: "Selecione a data",
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1964),
+      lastDate: DateTime(2100),
+    );
+
+    if (result != null) {
+      setState(() {
+        selectedDate = getAndFormatDateTime(result);
+      });
+    }
+  }
+
+  String getAndFormatDateTime(DateTime date) {
+    String data = date.toLocal().toString().split(' ')[0];
+
+    List<String> splittedData = data.split('-');
+
+    String dia = splittedData[2];
+    String mes = splittedData[1];
+    String ano = splittedData[0];
+
+    data = '${dia}/${mes}/${ano}';
+
+    return data;
+  }
 
   @override
   Widget build(BuildContext context) {
     Map<String, Object> arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
+
+    setState(() {
+      selectedDate = arguments['date'] as String;
+    });
 
     String title = arguments['title'] as String;
     String description = arguments['description'] as String;
@@ -16,18 +60,37 @@ class UpdateScreen extends StatelessWidget {
         TextEditingController(text: description);
 
     return Scaffold(
-      appBar: AppBar(
-        leading: const BackButton(
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.black,
-      ),
+      appBar: const CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Row(
+              children: [
+                Text(selectedDate.toString(),
+                    style: const TextStyle(fontSize: 24)),
+                const Spacer(flex: 1),
+                ElevatedButton(
+                  onPressed: () => selectData(),
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateColor.resolveWith(
+                          (states) => Colors.blue)),
+                  child: const Row(
+                    children: [
+                      Text("Selecionar", style: TextStyle(color: Colors.white)),
+                      Padding(padding: EdgeInsets.only(left: 10)),
+                      Icon(
+                        Icons.date_range_rounded,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const Padding(padding: EdgeInsets.only(bottom: 20)),
             TextField(
               controller: titleController,
               decoration: const InputDecoration(

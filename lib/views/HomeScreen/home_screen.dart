@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo/utils/utils.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,18 +12,21 @@ class _HomePageState extends State<HomePage> {
     {
       'title': 'titletitletitletitletitletitletitletitle',
       'description':
-          'description\n\n\n\ndescription\n\n\n\ndescription\n\n\n\ndescription\n\n\n\ndescription\n\n\n\ndescription\n\n\n\n'
+          'description\n\n\n\ndescription\n\n\n\ndescription\n\n\n\ndescription\n\n\n\ndescription\n\n\n\ndescription\n\n\n\n',
+      'date': '03/10/2023'
     }
   ];
 
-  void setTheNewTodo(String title, String description) {
-    setState(() => todoList.add({'title': title, 'description': description}));
+  void setTheNewTodo(String title, String description, String date) {
+    setState(() => todoList
+        .add({'title': title, 'description': description, 'date': date}));
   }
 
   void redirectToView(int index) {
     Navigator.pushNamed(context, '/view', arguments: {
       'title': todoList[index]['title'] ?? '',
       'description': todoList[index]['description'] ?? '',
+      'date': todoList[index]['date'] ?? '',
     });
   }
 
@@ -33,15 +35,18 @@ class _HomePageState extends State<HomePage> {
         await Navigator.pushNamed(context, '/update', arguments: {
       'title': todoList[index]['title'] ?? '',
       'description': todoList[index]['description'] ?? '',
+      'date': todoList[index]['date'] ?? '',
     }) as Map<String, Object?>?;
 
     String title = result?['title'].toString() ?? '';
     String description = result?['description'].toString() ?? '';
+    String date = result?['date'].toString() ?? '';
 
-    if (title != '' || description != '') {
+    if (title != '' || description != '' || date != '') {
       setState(() {
         todoList[index]['title'] = title;
         todoList[index]['description'] = description;
+        todoList[index]['date'] = date;
       });
     }
   }
@@ -161,8 +166,9 @@ class _HomePageState extends State<HomePage> {
 
               String title = todo?['title'] ?? '';
               String description = todo?['description'] ?? '';
+              String date = todo?['selectedDate'] ?? '';
 
-              if (title != '') setTheNewTodo(title, description);
+              if (title != '') setTheNewTodo(title, description, date);
             },
             icon: const Icon(Icons.add),
             color: Colors.white,
@@ -173,21 +179,19 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: Column(
           children: [
-            Flexible(
-              child: Scrollbar(
-                child: ListView.separated(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(),
-                  itemCount: todoList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Flexible(
-                      fit: FlexFit.loose,
-                      child: todoItem(index),
-                    );
-                  },
-                ),
+            Scrollbar(
+              child: ListView.separated(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
+                itemCount: todoList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Flexible(
+                    fit: FlexFit.loose,
+                    child: todoItem(index),
+                  );
+                },
               ),
             )
           ],
