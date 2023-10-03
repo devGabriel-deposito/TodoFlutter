@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
-class AddPage extends StatefulWidget {
-  const AddPage({super.key});
-
-  @override
-  State<AddPage> createState() => _AddPageState();
-}
-
-class _AddPageState extends State<AddPage> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
+class UpdateScreen extends StatelessWidget {
+  const UpdateScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Map<String, Object> arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
+
+    String title = arguments['title'] as String;
+    String description = arguments['description'] as String;
+
+    TextEditingController titleController = TextEditingController(text: title);
+    TextEditingController descriptionController =
+        TextEditingController(text: description);
+
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(
@@ -29,14 +31,14 @@ class _AddPageState extends State<AddPage> {
             TextField(
               controller: titleController,
               decoration: const InputDecoration(
-                labelText: "Title",
+                labelText: "Título",
               ),
               textInputAction: TextInputAction.next,
             ),
             TextField(
               controller: descriptionController,
               decoration: const InputDecoration(
-                labelText: "Description",
+                labelText: "Descrição",
               ),
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.newline,
@@ -59,10 +61,8 @@ class _AddPageState extends State<AddPage> {
                     backgroundColor:
                         MaterialStateColor.resolveWith((states) => Colors.blue),
                   ),
-                  child: const Text(
-                    "Criar",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child:
+                      const Text("Ok", style: TextStyle(color: Colors.white)),
                 )
               ],
             )

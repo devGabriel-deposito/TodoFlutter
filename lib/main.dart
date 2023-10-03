@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo/views/AddScreen/add_screen.dart';
 import 'package:todo/views/HomeScreen/home_screen.dart';
+import 'package:todo/views/UpdateScreen/update_screen.dart';
+import 'package:todo/views/ViewTodo/view_todo.dart';
 
 void main() {
   runApp(const App());
@@ -16,6 +18,8 @@ class App extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/add': (context) => const AddPage(),
+        '/view': (context) => const ViewTodo(),
+        '/update': (context) => const UpdateScreen(),
       },
       debugShowCheckedModeBanner: false,
       title: "Todo",
