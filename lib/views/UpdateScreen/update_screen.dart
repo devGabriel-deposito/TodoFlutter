@@ -71,74 +71,79 @@ class _UpdateScreenState extends State<UpdateScreen> {
       appBar: const CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
+        child: Flexible(
+          child: Scrollbar(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(selectedDate.toString(),
-                    style: const TextStyle(fontSize: 24)),
-                const Spacer(flex: 1),
-                ElevatedButton(
-                  onPressed: () => selectData(),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.blue)),
-                  child: const Row(
-                    children: [
-                      Text("Selecionar", style: TextStyle(color: Colors.white)),
-                      Padding(padding: EdgeInsets.only(left: 10)),
-                      Icon(
-                        Icons.date_range_rounded,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
+                Row(
+                  children: [
+                    Text(selectedDate.toString(),
+                        style: const TextStyle(fontSize: 24)),
+                    const Spacer(flex: 1),
+                    ElevatedButton(
+                      onPressed: () => selectData(),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateColor.resolveWith(
+                              (states) => Colors.blue)),
+                      child: const Row(
+                        children: [
+                          Text("Selecionar",
+                              style: TextStyle(color: Colors.white)),
+                          Padding(padding: EdgeInsets.only(left: 10)),
+                          Icon(
+                            Icons.date_range_rounded,
+                            color: Colors.white,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            const Padding(padding: EdgeInsets.only(bottom: 20)),
-            TextField(
-              controller: titleController,
-              decoration: const InputDecoration(
-                labelText: "Título",
-              ),
-              textInputAction: TextInputAction.next,
-            ),
-            TextField(
-              controller: descriptionController,
-              decoration: const InputDecoration(
-                labelText: "Descrição",
-              ),
-              keyboardType: TextInputType.multiline,
-              textInputAction: TextInputAction.newline,
-              maxLines: 5,
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-            ),
-            Row(
-              children: [
-                const Spacer(flex: 1),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context, {
-                      'title': titleController.text,
-                      'description': descriptionController.text,
-                      'date': selectedDate
-                    });
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateColor.resolveWith((states) => Colors.blue),
+                const Padding(padding: EdgeInsets.only(bottom: 20)),
+                TextField(
+                  controller: titleController,
+                  decoration: const InputDecoration(
+                    labelText: "Título",
                   ),
-                  child:
-                      const Text("Ok", style: TextStyle(color: Colors.white)),
+                  textInputAction: TextInputAction.next,
+                ),
+                TextField(
+                  controller: descriptionController,
+                  decoration: const InputDecoration(
+                    labelText: "Descrição",
+                  ),
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.newline,
+                  maxLines: 5,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                ),
+                Row(
+                  children: [
+                    const Spacer(flex: 1),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context, {
+                          'title': titleController.text,
+                          'description': descriptionController.text,
+                          'date': selectedDate
+                        });
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => Colors.blue),
+                      ),
+                      child: const Text("Ok",
+                          style: TextStyle(color: Colors.white)),
+                    )
+                  ],
                 )
               ],
-            )
-          ],
+            ),
+          ),
         ),
       ),
     );
