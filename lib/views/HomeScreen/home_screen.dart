@@ -8,14 +8,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map<String, String>> todoList = [
-    {
-      'title': 'titletitletitletitletitletitletitletitle',
-      'description':
-          'description\n\n\n\ndescription\n\n\n\ndescription\n\n\n\ndescription\n\n\n\ndescription\n\n\n\ndescription\n\n\n\n',
-      'date': '03/10/2023'
-    }
-  ];
+  List<Map<String, String>> todoList = [];
 
   void setTheNewTodo(String title, String description, String date) {
     setState(() {
@@ -183,6 +176,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (todoList.isEmpty) {
+      for (int i = 0; i < 15; i++) {
+        todoList.add({
+          'title': '$i - Título do todo - $i',
+          'description': 'Descrição\n\ndo\n\ntodo - $i',
+          'date': '${i < 10 ? '0$i' : i}/10/2023'
+        });
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -213,16 +216,18 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         child: Column(
           children: [
-            Scrollbar(
-              child: ListView.separated(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(),
-                itemCount: todoList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return todoItem(index);
-                },
+            Flexible(
+              child: Scrollbar(
+                child: ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(),
+                  itemCount: todoList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return todoItem(index);
+                  },
+                ),
               ),
             )
           ],
