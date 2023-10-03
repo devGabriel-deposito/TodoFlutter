@@ -12,12 +12,18 @@ class _UpdateScreenState extends State<UpdateScreen> {
   String selectedDate = "";
 
   void selectData() async {
+    List<String> splittedDate = selectedDate.split('/');
+
+    int ano = int.parse(splittedDate[2]);
+    int mes = int.parse(splittedDate[1]);
+    int dia = int.parse(splittedDate[0]);
+
     DateTime? result = await showDatePicker(
       context: context,
       cancelText: "Fechar",
       confirmText: "Selecionar",
       helpText: "Selecione a data",
-      initialDate: DateTime.now(),
+      initialDate: DateTime(ano, mes, dia),
       firstDate: DateTime(1964),
       lastDate: DateTime(2100),
     );
@@ -48,9 +54,11 @@ class _UpdateScreenState extends State<UpdateScreen> {
     Map<String, Object> arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
 
-    setState(() {
-      selectedDate = arguments['date'] as String;
-    });
+    if (selectedDate == '') {
+      setState(() {
+        selectedDate = arguments['date'] as String;
+      });
+    }
 
     String title = arguments['title'] as String;
     String description = arguments['description'] as String;
@@ -117,7 +125,8 @@ class _UpdateScreenState extends State<UpdateScreen> {
                   onPressed: () {
                     Navigator.pop(context, {
                       'title': titleController.text,
-                      'description': descriptionController.text
+                      'description': descriptionController.text,
+                      'date': selectedDate
                     });
                   },
                   style: ButtonStyle(

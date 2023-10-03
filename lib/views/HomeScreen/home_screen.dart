@@ -18,8 +18,21 @@ class _HomePageState extends State<HomePage> {
   ];
 
   void setTheNewTodo(String title, String description, String date) {
-    setState(() => todoList
-        .add({'title': title, 'description': description, 'date': date}));
+    setState(() {
+      todoList.add({'title': title, 'description': description, 'date': date});
+
+      print(date);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Todo criado!'),
+          action: SnackBarAction(
+            label: 'Ok',
+            onPressed: () {},
+          ),
+        ),
+      );
+    });
   }
 
   void redirectToView(int index) {
@@ -47,6 +60,16 @@ class _HomePageState extends State<HomePage> {
         todoList[index]['title'] = title;
         todoList[index]['description'] = description;
         todoList[index]['date'] = date;
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Todo atualizado!'),
+            action: SnackBarAction(
+              label: 'Ok',
+              onPressed: () {},
+            ),
+          ),
+        );
       });
     }
   }
@@ -62,31 +85,42 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const Text('Do you really want to delete?'),
+                const Text('Tem certeza que deseja excluir?'),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      child: const Text('No',
+                      child: const Text('Não',
                           style: TextStyle(color: Colors.black)),
                       onPressed: () => Navigator.pop(context),
                     ),
                     const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 10)),
                     ElevatedButton(
-                      onPressed: () => {
+                      onPressed: () {
                         setState(() {
                           todoList.removeAt(index);
-                        }),
-                        Navigator.pop(context)
+                        });
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text('Todo excluído!'),
+                            action: SnackBarAction(
+                              label: 'Ok',
+                              onPressed: () {},
+                            ),
+                          ),
+                        );
+
+                        Navigator.pop(context);
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateColor.resolveWith(
                           (states) => Colors.red,
                         ),
                       ),
-                      child: const Text('Yes',
+                      child: const Text('Sim',
                           style: TextStyle(color: Colors.white)),
                     ),
                   ],
@@ -166,7 +200,7 @@ class _HomePageState extends State<HomePage> {
 
               String title = todo?['title'] ?? '';
               String description = todo?['description'] ?? '';
-              String date = todo?['selectedDate'] ?? '';
+              String date = todo?['date'] ?? '';
 
               if (title != '') setTheNewTodo(title, description, date);
             },
@@ -187,10 +221,7 @@ class _HomePageState extends State<HomePage> {
                     const Divider(),
                 itemCount: todoList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Flexible(
-                    fit: FlexFit.loose,
-                    child: todoItem(index),
-                  );
+                  return todoItem(index);
                 },
               ),
             )

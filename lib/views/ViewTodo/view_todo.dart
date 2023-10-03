@@ -35,7 +35,7 @@ class ViewTodo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(children: [
-                        const Text("Title:"),
+                        const Text("Título:"),
                         const Spacer(flex: 1),
                         Text(date),
                       ]),
@@ -48,7 +48,7 @@ class ViewTodo extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Description:"),
+                      const Text("Descrição:"),
                       Text(description, style: const TextStyle(fontSize: 32)),
                     ],
                   )

@@ -87,14 +87,14 @@ class _AddPageState extends State<AddPage> {
             TextField(
               controller: titleController,
               decoration: const InputDecoration(
-                labelText: "Title",
+                labelText: "Título",
               ),
               textInputAction: TextInputAction.next,
             ),
             TextField(
               controller: descriptionController,
               decoration: const InputDecoration(
-                labelText: "Description",
+                labelText: "Descrição",
               ),
               keyboardType: TextInputType.multiline,
               textInputAction: TextInputAction.newline,
