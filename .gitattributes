@@ -1,4 +1,16 @@
+*.c linguist-vendored
+*.h linguist-vendored
+*.hh linguist-vendored
 *.cc linguist-vendored
+*.cxx linguist-vendored
 *.cpp linguist-vendored
 *.cmake linguist-vendored
 *.txt linguist-vendored
+*.swift linguist-vendored
+*.xcodeproj linguist-vendored
+*.xcworkspace linguist-vendored
+*.storyboard linguist-vendored
+*.xib linguist-vendored
+*.plist linguist-vendored
+*.html linguist-vendored
+*.kt linguist-vendored
