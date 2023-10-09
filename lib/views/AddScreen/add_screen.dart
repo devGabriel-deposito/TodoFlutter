@@ -43,7 +43,7 @@ class _AddPageState extends State<AddPage> {
     String mes = splittedData[1];
     String ano = splittedData[0];
 
-    data = '${dia}/${mes}/${ano}';
+    data = '$dia/$mes/$ano';
 
     return data;
   }

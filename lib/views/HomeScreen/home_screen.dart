@@ -12,9 +12,11 @@ class _HomePageState extends State<HomePage> {
 
   void setTheNewTodo(String title, String description, String date) {
     setState(() {
-      todoList.add({'title': title, 'description': description, 'date': date});
-
-      print(date);
+      todoList.add({
+        'title': title,
+        'description': description,
+        'date': date
+      });
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -37,8 +39,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void redirectToUpdate(int index) async {
-    Map<String, Object?>? result =
-        await Navigator.pushNamed(context, '/update', arguments: {
+    Map<String, Object?>? result = await Navigator.pushNamed(context, '/update', arguments: {
       'title': todoList[index]['title'] ?? '',
       'description': todoList[index]['description'] ?? '',
       'date': todoList[index]['date'] ?? '',
@@ -84,12 +85,10 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                      child: const Text('Não',
-                          style: TextStyle(color: Colors.black)),
+                      child: const Text('Não', style: TextStyle(color: Colors.black)),
                       onPressed: () => Navigator.pop(context),
                     ),
-                    const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10)),
+                    const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
@@ -113,8 +112,7 @@ class _HomePageState extends State<HomePage> {
                           (states) => Colors.red,
                         ),
                       ),
-                      child: const Text('Sim',
-                          style: TextStyle(color: Colors.white)),
+                      child: const Text('Sim', style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 )
@@ -145,33 +143,48 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const Spacer(flex: 1),
-        IconButton(
-          onPressed: () => redirectToView(index),
-          icon: const Icon(
-            Icons.remove_red_eye_rounded,
-            color: Colors.blue,
-          ),
-        ),
-        IconButton(
-          onPressed: () => redirectToUpdate(index),
-          icon: const Icon(
-            Icons.edit_document,
-            color: Colors.green,
-          ),
-        ),
-        IconButton(
-          onPressed: () => confirmDelete(index),
-          icon: const Icon(
-            Icons.delete_forever,
-            color: Colors.red,
-          ),
-        ),
+        PopupMenuButton(
+          onSelected: (String value) {
+            switch (value) {
+              case "view":
+                redirectToView(index);
+              case "edit":
+                redirectToUpdate(index);
+              case "delete":
+                confirmDelete(index);
+              default:
+            }
+          },
+          itemBuilder: (BuildContext context) => [
+            const PopupMenuItem(
+              value: "view",
+              child: Icon(
+                Icons.remove_red_eye_rounded,
+                color: Colors.blue,
+              ),
+            ),
+            const PopupMenuItem(
+              value: "edit",
+              child: Icon(
+                Icons.edit_document,
+                color: Colors.green,
+              ),
+            ),
+            const PopupMenuItem(
+              value: "delete",
+              child: Icon(
+                Icons.delete_forever,
+                color: Colors.red,
+              ),
+            ),
+          ],
+        )
       ],
     );
   }
 
   double getWidthPercent() {
-    return MediaQuery.of(context).size.width * (60 / 100);
+    return MediaQuery.of(context).size.width * (80 / 100);
   }
 
   @override
@@ -213,7 +226,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
             Flexible(
@@ -221,8 +234,7 @@ class _HomePageState extends State<HomePage> {
                 child: ListView.separated(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(),
+                  separatorBuilder: (BuildContext context, int index) => const Divider(),
                   itemCount: todoList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return todoItem(index);
